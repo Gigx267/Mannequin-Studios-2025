@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>About Us | Mannequin Studios</title>
+    <link rel="icon" type="image/x-icon" href="dg (3).jpg">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:wght@400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        :root {
+            --dark-bg: #0a0a0a;
+            --dark-secondary: #151515;
+            --accent-gold: #d4af37;
+            --accent-light: #f8f0e3;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --transition-slow: 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            --transition-medium: 0.4s ease;
+            --transition-fast: 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-weight: 300;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        p, span, .text-regular {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Luxury decorative elements */
+        .luxury-divider {
+            height: 2px;
+            width: 80px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            margin: 1.5rem 0;
+            position: relative;
+        }
+        
+        .luxury-divider::before,
+        .luxury-divider::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--accent-gold);
+        }
+        
+        .luxury-divider::before {
+            left: 0;
+        }
+        
+        .luxury-divider::after {
+            right: 0;
+        }
+        
+        .gold-accent {
+            color: var(--accent-gold);
+        }
+        
+        .section-padding {
+            padding: 6rem 0;
+        }
+        
+        /* Navigation */
+        .nav-overlay {
+            position: fixed;
+            background: rgba(10, 10, 10, 0.98);
+            z-index: 9998;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.6s ease;
+        }
+        
+        .nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .nav__list {
+            list-style: none;
+            text-align: center;
+        }
+        
+        .nav__list-item {
+            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav__list-item a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 2.5rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            display: inline-block;
+            position: relative;
+            transition: var(--transition-medium);
+        }
+        
+        .nav__list-item a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-gold);
+            transition: width 0.5s ease;
+        }
+        
+        .nav__list-item a:hover {
+            color: var(--accent-gold);
+            transform: translateX(10px);
+        }
+        
+        .nav__list-item a:hover::before {
+            width: 100%;
+        }
+        
+        /* Hamburger Menu */
+        #navbar {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            z-index: 9999;
+        }
+        
+        #menu-toggle {
+            opacity: 0;
+            position: absolute;
+        }
+        
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            z-index: 9999;
+        }
+        
+        .menu-btn > span,
+        .menu-btn > span::before,
+        .menu-btn > span::after {
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent-light);
+            transition-duration: .4s;
+        }
+        
+        .menu-btn > span::before {
+            content: '';
+            top: -8px;
+        }
+        
+        .menu-btn > span::after {
+            content: '';
+            top: 8px;
+        }
+        
+        #menu-toggle:checked ~ .menu-btn > span {
+            transform: rotate(45deg);
+            background-color: var(--accent-gold);
+        }
+        
+        #menu-toggle:checked ~ .menu-btn > span::before {
+            top: 0;
+            transform: rotate(0);
+            background-color: var(--accent-gold);
+        }
+        
+        #menu-toggle:checked ~ .menu-btn > span::after {
+            top: 0;
+            transform: rotate(90deg);
+            background-color: var(--accent-gold);
+        }
+        
+        #menu-toggle:checked ~ .nav-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Hero Section for About Page */
+        .about-hero {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/dg\ \(3\).jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+        
+        .hero-background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(10, 10, 10, 0.9) 0%, rgba(21, 21, 21, 0.85) 100%);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 2rem;
+        }
+        
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: 3px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2.5rem;
+            font-family: 'Playfair Display', serif;
+            font-weight: 300;
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        /* Parallax Scrolling Sections */
+        .parallax-section {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            z-index: -1;
+            transform: translateZ(0);
+        }
+        
+        .parallax-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.7);
+            z-index: -1;
+        }
+        
+        .parallax-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Team Section */
+        .team-member {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: var(--transition-medium);
+        }
+        
+        .team-member-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: var(--transition-slow);
+        }
+        
+        .team-member-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            background: linear-gradient(transparent, rgba(10, 10, 10, 0.9));
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition-medium);
+        }
+        
+        .team-member:hover .team-member-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .team-member:hover .team-member-img {
+            transform: scale(1.05);
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 3rem 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: var(--accent-gold);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 4rem;
+            width: 50%;
+            padding: 0 3rem;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--dark-bg);
+            border: 2px solid var(--accent-gold);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-dot {
+            right: -10px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -10px;
+        }
+        
+        .timeline-content {
+            background: var(--dark-secondary);
+            padding: 2rem;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .timeline-content.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Stats Counter */
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            font-family: 'Cinzel', serif;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Floating Elements */
+        .floating-element {
+            position: absolute;
+            z-index: 1;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-element:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .flacing-element:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+        
+        .floating-element:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+        }
+        
+        /* Luxury Button */
+        .btn-luxury {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--accent-gold);
+            padding: 15px 40px;
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition-medium);
+            z-index: 1;
+        }
+        
+        .btn-luxury::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-gold);
+            transition: var(--transition-medium);
+            z-index: -1;
+        }
+        
+        .btn-luxury:hover {
+            color: var(--dark-bg);
+        }
+        
+        .btn-luxury:hover::before {
+            left: 0;
+        }
+        
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 0;
+            }
+            
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-dot,
+            .timeline-item:nth-child(even) .timeline-dot {
+                left: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .menu-btn {
+                top: 25px;
+                right: 25px;
+            }
+            
+            .parallax-bg {
+                background-attachment: scroll;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2rem;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            text-align: center;
+            padding-top: 80px;
+        }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+                text-align: center;
+            }
+            
+            .btn-luxury {
+                padding: 12px 30px;
+                font-size: 0.8rem;
+            }
+            
+            .stat-number {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="nav nav-overlay">
+        <div class="nav__content">
+            <ul class="nav__list">
+               <li class="nav__list-item active-nav"><a href="index.html" class="hover-target">HOME</a></li>
+                <li class="nav__list-item"><a href="about.html" class="hover-target">ABOUT US  </a></li>
+                <li class="nav__list-item"><a href="services.html" class="hover-target"> OUR SERVICES </a></li>
+                <li class="nav__list-item"><a href="Pastworks.html" class="hover-target">BRANDS  </a></li>
+                <li class="nav__list-item"><a href="Founder.html" class="hover-target">FOUNDER  </a></li>
+                <li class="nav__list-item"><a href="contact.html" class="hover-target">CONTACT US </a></li>
+            </ul>
+        </div>
+    </div>
+
+    <nav id="navbar">
+        <input id="menu-toggle" type="checkbox" />
+        <label class="menu-btn" for="menu-toggle">
+            <span></span>
+        </label>
+    </nav>
+
+    <!-- About Hero Section -->
+   
+
+    <!-- Our Story Section -->
+    <section id="our-story" class="section-padding">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <span class="section-intro">OUR BEGINNINGS</span>
+                    <h2 class="section-title">The Genesis of <span class="gold-accent">Excellence</span></h2>
+                    <div class="luxury-divider"></div>
+                    <p class="mb-4"> Mannequin Studios emerged from a simple yet powerful vision: to bridge the gap between
+                         artistic expression and commercial success in the digital age.</p>
+                    <p class="mb-4">We're driven by a simple idea: the most powerful marketing doesn't feel like 
+                        marketing at all. We connect brands with authentic voices to create content that’s real, relatable, and designed to resonate. Our expertise spans the fashion, fitness, and lifestyle industries, and our focus is on crafting unforgettable campaigns rooted in genuine storytelling. We believe that when your audience sees themselves in your content, they're more likely to trust your brand. That's our promise: to build trust through unforced appeal, 
+                        moving beyond polished ads and into the world of organic, human connection.</p>
+                    <p>Our journey has been marked by relentless pursuit of perfection, innovation in visual storytelling, and unwavering commitment to our clients' success.</p>
+                </div>
+                <div class="col-lg-6">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1536924430914-91f9e2041b83?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDJ8fG1vZGVsfGVufDB8fDB8fHww" alt="Our Studio" class="img-fluid">
+                        <div class="position-absolute bottom-0 start-0 p-4 bg-dark" style="width: 80%; transform: translate(-20px, -20px); border: 1px solid var(--accent-gold);">
+                         
+                            <p class="mb-0">They excellence of creating real, relatable content
+                                 a community can  trust that drives growth and loyalty</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:wght@400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Your existing CSS remains here */
+        :root {
+            --dark-bg: #0a0a0a;
+            --dark-secondary: #151515;
+            --accent-gold: #d4af37;
+            --accent-light: #f8f0e3;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --transition-slow: 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            --transition-medium: 0.4s ease;
+            --transition-fast: 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-weight: 300;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        p, span, .text-regular {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Luxury decorative elements */
+        .luxury-divider {
+            height: 2px;
+            width: 80px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            margin: 1.5rem 0;
+            position: relative;
+        }
+        
+        .luxury-divider::before,
+        .luxury-divider::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--accent-gold);
+        }
+        
+        .luxury-divider::before {
+            left: 0;
+        }
+        
+        .luxury-divider::after {
+            right: 0;
+        }
+        
+        .gold-accent {
+            color: var(--accent-gold);
+        }
+        
+        .section-padding {
+            padding: 6rem 0;
+        }
+        
+        /* New Storytelling Section Styles */
+        .storytelling-section {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(to bottom, var(--dark-bg), var(--dark-secondary));
+        }
+        
+        .storytelling-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSgzMCkiPjxyZWN0IHdpZHRoPSIyIiBoZWlnaHQ9IjIiIHg9IjAiIHk9IjAiIGZpbGw9IiNkNGFmMzciIG9wYWNpdHk9IjAuMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+            opacity: 0.1;
+        }
+        
+        .service-card {
+            background: rgba(21, 21, 21, 0.7);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 2.5rem;
+            height: 100%;
+            transition: var(--transition-medium);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.05), transparent);
+            transition: var(--transition-slow);
+        }
+        
+        .service-card:hover::before {
+            left: 100%;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            transition: var(--transition-medium);
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.1);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            font-family: 'Cinzel', serif;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .quote-block {
+            border-left: 3px solid var(--accent-gold);
+            padding: 2rem;
+            background: rgba(21, 21, 21, 0.5);
+            margin: 2rem 0;
+        }
+        
+        .quote-text {
+            font-style: italic;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--accent-light);
+        }
+        
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .service-card {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .service-card {
+                margin-bottom: 2rem;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Your existing navigation and hero sections remain here -->
+    
+    <!-- Storytelling Section -->
+    <section id="storytelling" class="section-padding storytelling-section">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <span class="section-intro">THE EVOLUTION OF MARKETING</span>
+                    <h2 class="section-title">Where <span class="gold-accent">Storytelling</span> Meets Strategy</h2>
+                    <div class="luxury-divider mx-auto"></div>
+                </div>
+            </div>
+            
+            <div class="row align-items-center mb-6">
+                <div class="col-lg-6 mb-5 mb-lg-0 fade-in">
+                    <p class="mb-4">Digital marketing has evolved beyond mere advertising; it's now about crafting compelling narratives that resonate with audiences. By understanding the power of storytelling, businesses can forge deeper connections with their customers and achieve marketing success.</p>
+                    
+                    <div class="quote-block fade-in">
+                        <p class="quote-text">"People don't buy products; they buy better versions of themselves. Storytelling allows brands to show customers what that better version looks like."</p>
+                    </div>
+                    
+                    <p class="mb-4">At Mannequin Studios, we blend artistic vision with strategic thinking to create marketing that doesn't feel like marketing. Our approach transforms your brand message into an engaging narrative that captures attention, builds trust, and inspires action.</p>
+                    
+                    <div class="row mt-5">
+                        <div class="col-4 text-center fade-in">
+                            
+                        </div>
+                        <div class="col-4 text-center fade-in">
+                           
+                        </div>
+                        <div class="col-4 text-center fade-in">
+                           
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 fade-in">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1579389083078-4e7018379f7e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHN0b3J5dGVsbGluZ3xlbnwwfHwwfHx8MA%3D%3D" alt="Storytelling in Marketing" class="img-fluid rounded">
+                        <div class="position-absolute bottom-0 start-0 p-4 bg-dark" style="width: 80%; transform: translate(-20px, -20px); border: 1px solid var(--accent-gold);">
+                            <p class="mb-0">The most powerful brands are built on stories, not slogans</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-6">
+                <div class="col-12 text-center mb-5 fade-in">
+                    <h3 class="mb-4">Our <span class="gold-accent">Storytelling</span> Services</h3>
+                    <p class="mx-auto" style="max-width: 700px; color: var(--text-secondary);">
+                        We transform your brand message into compelling visual narratives that resonate with your audience and drive meaningful engagement.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 col-lg-4 mb-4 fade-in">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <h4>Brand Story Videos</h4>
+                        <p>High-quality videos that tell your brand's story, including explainer videos, customer testimonials, and behind-the-scenes footage that builds authenticity and connection.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4 mb-4 fade-in">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h4>Content Strategy</h4>
+                        <p>Developing comprehensive content calendars that align with your business objectives, ensuring consistent messaging across all platforms throughout the year.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4 mb-4 fade-in">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Audience Analysis</h4>
+                        <p>Identifying and understanding your target audiences to create personalized content that resonates with their values, needs, and aspirations.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4 mb-4 fade-in">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h4>Message Development</h4>
+                        <p>Defining key messages that communicate your unique value proposition and differentiate your brand in a crowded marketplace.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4 mb-4 fade-in">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h4>Brand Identity</h4>
+                        <p>Refining your brand identity to ensure visual and verbal consistency across all touchpoints, strengthening recognition and recall.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4 mb-4 fade-in">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4>Performance Analytics</h4>
+                        <p>Measuring and analyzing campaign performance to continuously optimize your storytelling approach for maximum impact and ROI.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-12 text-center fade-in">
+                    <a href="contact.html" class="btn btn-luxury">Begin Your Story</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Services & Rates Section -->
+<section id="services-rates" class="section-padding" style="background-color: var(--dark-secondary);">
+    <div class="container">
+        <!-- Section Header -->
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <span class="section-intro">INVESTMENT & VALUE</span>
+                <h2 class="section-title">Premium <span class="gold-accent">Content Creation</span></h2>
+                <div class="luxury-divider mx-auto"></div>
+                <p class="mt-4 mx-auto" style="max-width: 800px; color: var(--text-secondary);">
+                    Our comprehensive approach ensures every piece of content is strategically crafted to achieve your business objectives.
+                </p>
+            </div>
+        </div>
+
+        <!-- Value Proposition -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="bento-box text-center p-4 mb-4">
+                    <h3 class="mb-3">Complete Content Solution</h3>
+                    <p class="mb-0" style="font-size: 1.2rem;">
+                        THESE RATES INCLUDE NOT ONLY VIDEO/PHOTO CREATION BUT ALSO PRODUCT RESEARCH AND ORIGINAL
+                        CONCEPT CREATION BASED ON YOUR BUSINESS GOALS
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Services Offered -->
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <h3 class="mb-4" style="color: var(--accent-light);">WHAT I OFFER</h3>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="services-list" style="list-style: none; padding: 0;">
+                            <li class="mb-3"><i class="fas fa-check-circle gold-accent me-2"></i> PRODUCT DEMOS</li>
+                            <li class="mb-3"><i class="fas fa-check-circle gold-accent me-2"></i> STORYTELLING</li>
+                            <li class="mb-3"><i class="fas fa-check-circle gold-accent me-2"></i> TEXT-TO-SPEECH</li>
+                            <li class="mb-3"><i class="fas fa-check-circle gold-accent me-2"></i> TESTIMONIALS</li>
+                            <li class="mb-3"><i class="fas fa-check-circle gold-accent me-2"></i> VOICE-OVERS</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="services-list" style="list-style: none; padding: 0;">
+                            <li class="mb-3"><i class="fas fa-check-circle gold-accent me-2"></i> AESTHETIC VIDEOS</li>
+                            <li class="mb-3"><i class="fas fa-check-circle gold-accent me-2"></i> AESTHETIC PHOTOS</li>
+                            <li class="mb-3"><i class="fas fa-check-circle gold-accent me-2"></i> PRODUCT PHOTOGRAPHY</li>
+                            <li class="mb-3"><i class="fas fa-check-circle gold-accent me-2"></i> PRODUCT FEATURED PHOTOGRAPHY</li>
+                            <li class="mb-3"><i class="fas fa-check-circle gold-accent me-2"></i> SCRIPT READS</li>
+                            <li class="mb-3"><i class="fas fa-check-circle gold-accent me-2"></i> BRIEF WRITING</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing Packages -->
+            <div class="col-lg-6">
+                <h3 class="mb-4" style="color: var(--accent-light);">Organic/Paid Rates</h3>
+                
+                <!-- Package 1 -->
+                <div class="bento-box mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="mb-0">Ad Tester Package - £800</h4>
+                       
+                    </div>
+                    <p class="mb-2">4 Videos - 2 hooks + 1 Body</p>
+                    <p class="mb-0 text-small" style="color: var(--text-secondary); font-size: 0.9rem;">
+                        *includes 3 months of usage rights
+                    </p>
+                </div>
+                
+                <!-- Package 2 -->
+                <div class="bento-box mb-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="mb-0">Premium Content Package - £1200 </h4>
+                       
+                    </div>
+                    <p class="mb-2">16 Videos - 4 hooks + 2 Bodies + 2 CTA</p>
+                    <p class="mb-0 text-small" style="color: var(--text-secondary); font-size: 0.9rem;">
+                        *includes 3 months of usage rights
+                    </p>
+                </div>
+                
+                <!-- Usage Rights -->
+                <div class="p-4" style="background-color: rgba(212, 175, 55, 0.1); border-left: 3px solid var(--accent-gold);">
+                    <h5 class="gold-accent mb-3">Paid Media Usage Rights</h5>
+                    <ul style="list-style: none; padding: 0; color: var(--text-secondary);">
+                        <li class="mb-2">3 or 6 Months Usage rights: +30% per month of base rate</li>
+                        <li class="mb-0">1-Year Usage rights: +70% per month of base rate</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Button -->
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <a href="contact.html" class="btn-luxury">Request Custom Quote</a>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- Your existing sections remain here -->
+     <section class="section-padding">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <span class="section-intro">OUR APPROACH</span>
+                    <h2 class="section-title">The Mannequin <span class="gold-accent">Process</span></h2>
+                    <div class="luxury-divider mx-auto"></div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="process-step fade-in">
+                        <span class="step-number">01</span>
+                        <h4>Discovery & Strategy</h4>
+                        <p>We begin by deeply understanding your brand, target audience, and business objectives to develop a content strategy that aligns with your goals.</p>
+                    </div>
+                    
+                    <div class="process-step fade-in">
+                        <span class="step-number">02</span>
+                        <h4>Concept Development</h4>
+                        <p>Our creative team develops original concepts that tell your brand story in a compelling way, ensuring each piece of content has a clear purpose.</p>
+                    </div>
+                    
+                    <div class="process-step fade-in">
+                        <span class="step-number">03</span>
+                        <h4>Production & Creation</h4>
+                        <p>Using professional equipment and techniques, we produce high-quality visual content that captures attention and communicates your message effectively.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="process-step fade-in">
+                        <span class="step-number">04</span>
+                        <h4>Optimization & Refinement</h4>
+                        <p>We refine each piece of content for maximum impact, ensuring it's optimized for the intended platform and audience.</p>
+                    </div>
+                    
+                    <div class="process-step fade-in">
+                        <span class="step-number">05</span>
+                        <h4>Delivery & Implementation</h4>
+                        <p>We deliver the final assets along with strategic recommendations for implementation to maximize their effectiveness.</p>
+                    </div>
+                    
+                    <div class="process-step fade-in">
+                        <span class="step-number">06</span>
+                        <h4>Analysis & Optimization</h4>
+                        <p>We track performance and provide insights to continuously refine your content strategy for better results over time.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="contact" class="section-padding" style="background-color: var(--dark-secondary);">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <span class="section-intro">GET IN TOUCH</span>
+                <h2 class="section-title">Let's <span class="gold-accent">Create Together</span></h2>
+                <div class="luxury-divider mx-auto"></div>
+                <p class="mt-4 mx-auto" style="max-width: 800px; color: var(--text-secondary);">
+                    Ready to elevate your brand with authentic content that converts? Reach out to discuss your project.
+                </p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="bento-box h-100">
+                    <h3 class="mb-4">Contact Information</h3>
+                    <div class="d-flex align-items-start mb-4">
+                        <div class="me-4">
+                            <i class="fas fa-user-circle gold-accent" style="font-size: 1.8rem;"></i>
+                        </div>
+                        <div>
+                            <h4 class="gold-accent mb-1">Benny Mannequin</h4>
+                            <p class="mb-0">Founder & Creative Director</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start mb-4">
+                        <div class="me-4">
+                            <i class="fas fa-envelope gold-accent" style="font-size: 1.8rem;"></i>
+                        </div>
+                        <div>
+                            <h4 class="gold-accent mb-1">Email</h4>
+                            <p class="mb-0">
+                                <a href="mailto:Mannequinstudioss@gmail.com" style="color: var(--text-secondary); text-decoration: none;">
+                                    Mannequinstudioss@gmail.com
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <h4 class="gold-accent mb-3">Connect With Us</h4>
+                        <div class="d-flex">
+                            <a href="#" class="social-icon me-3">
+                                <i class="fab fa-instagram fa-lg"></i>
+                            </a>
+                            <a href="#" class="social-icon me-3">
+                                <i class="fab fa-tiktok fa-lg"></i>
+                            </a>
+                            <a href="#" class="social-icon me-3">
+                                <i class="fab fa-linkedin-in fa-lg"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-pinterest-p fa-lg"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="bento-box h-100">
+                    <h3 class="mb-4">Send a Message</h3>
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Your Name</label>
+                                <input type="text" class="form-control bg-dark border-dark text-light" id="name" placeholder="Enter your name">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control bg-dark border-dark text-light" id="email" placeholder="Enter your email">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Subject</label>
+                            <input type="text" class="form-control bg-dark border-dark text-light" id="subject" placeholder="What is this regarding?">
+                        </div>
+                        <div class="mb-4">
+                            <label for="message" class="form-label">Your Message</label>
+                            <textarea class="form-control bg-dark border-dark text-light" id="message" rows="5" placeholder="Tell us about your project..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-luxury w-100">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Animation on scroll for the new section
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Your existing JavaScript remains here
+        });
+    </script>
+</body>
+</html>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Initialize GSAP ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hero animation
+            gsap.to('.hero-title', {
+                opacity: 1,
+                y: 0,
+                duration: 1.5,
+                ease: "power3.out"
+            });
+            
+            gsap.to('.hero-subtitle', {
+                opacity: 1,
+                y: 0,
+                duration: 1.5,
+                delay: 0.3,
+                ease: "power3.out"
+            });
+            
+            gsap.to('.btn-luxury', {
+                opacity: 1,
+                y: 0,
+                duration: 1.5,
+                delay: 0.6,
+                ease: "power3.out"
+            });
+            
+            // Animate elements on scroll
+            gsap.utils.toArray('.fade-in').forEach(element => {
+                gsap.to(element, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1.2,
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    }
+                });
+            });
+            
+            // Timeline animation
+            gsap.utils.toArray('.timeline-content').forEach((item, i) => {
+                gsap.to(item, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    },
+                    delay: i * 0.2
+                });
+            });
+            
+            // Counter animation
+            const counters = document.querySelectorAll('.stat-number');
+            const speed = 200;
+            
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-count');
+                    const count = +counter.innerText;
+                    
+                    const inc = target / speed;
+                    
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + inc);
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                
+                ScrollTrigger.create({
+                    trigger: counter,
+                    start: "top 85%",
+                    onEnter: updateCount,
+                    once: true
+                });
+            });
+            
+            // Parallax effect
+            gsap.to('.parallax-bg', {
+                yPercent: 20,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".parallax-section",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        // Close mobile menu if open
+                        document.getElementById('menu-toggle').checked = false;
+                        document.querySelector('.nav-overlay').classList.remove('active');
+                        
+                        window.scrollTo({
+                            top: targetElement.offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Close menu when clicking on nav links
+            const navLinks = document.querySelectorAll('.nav__list-item a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    document.getElementById('menu-toggle').checked = false;
+                    document.querySelector('.nav-overlay').classList.remove('active');
+                });
+            });
+            
+            // Toggle nav overlay when menu button is clicked
+            const menuToggle = document.getElementById('menu-toggle');
+            const navOverlay = document.querySelector('.nav-overlay');
+            
+            menuToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    navOverlay.classList.add('active');
+                } else {
+                    navOverlay.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
